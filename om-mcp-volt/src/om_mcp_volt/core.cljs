@@ -10,13 +10,34 @@
 
 (defonce app-state (atom {:text "Hello world!"}))
 
-(om/root
-  (fn [data owner]
-    (reify om/IRender
-      (render [_]
+
+(defn start-page [data owner]
+  (reify
+    om/IRender
+    (render [_]
         (dom/h1 nil (:text data)))))
+
+(om/root
+  start-page
   app-state
   {:target (. js/document (getElementById "app"))})
+
+
+(defroute index-page "/" []
+  (om/root start-page
+           app-state
+           {:target (. js/document (getElementById "app"))}))
+
+(defroute index-page "/home" []
+  (om/root start-page
+           app-state
+           {:target (. js/document (getElementById "app"))}))
+
+(defroute index-page "/account" []
+  (om/root start-page
+           app-state
+           {:target (. js/document (getElementById "app"))}))
+
 
 
 (defn on-js-reload []
